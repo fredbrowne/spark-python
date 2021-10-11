@@ -9,12 +9,12 @@ inputDF = spark.read.text("data/book.txt")
 words = inputDF.select(func.explode(func.split(inputDF.value, "\\W+")).alias("word"))
 words.filter(words.word != "")
 
-lowercaseWords = words.select(func.lower(words.word).alias("words"))
+lowercaseWords = words.select(func.lower(words.word).alias("word"))
 
-wordCounts = lowercaseWords.groupBy("words").count()
+wordCounts = lowercaseWords.groupBy("word").count()
 
 #Sort by counts
-wordCountsSorted = wordCounts.sort("words")
+wordCountsSorted = wordCounts.sort("count")
 
 wordCountsSorted.show(wordCountsSorted.count())
 
